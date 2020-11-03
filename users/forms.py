@@ -7,10 +7,10 @@ from .models import Customer,Employee
 User = get_user_model()
 
 
-class CustomerCreationForm(UserCreationForm):
-    class Meta(UserCreationForm):
-        model = User
-        fields = ('username','email','password1','password2','is_customer') 
+# class CustomerCreationForm(UserCreationForm):
+#     class Meta(UserCreationForm):
+#         model = User
+#         fields = ('username','email','password1','password2','is_customer') 
 
     # let op:
     # user.is_customer in forms already (not in view) 
@@ -23,11 +23,11 @@ class CustomerCreationForm(UserCreationForm):
     #     customer.save()
     #     return user    
 
-class  CustomerChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = ('username','avatar','phone_number')
-        fields = UserChangeForm.Meta.fields
+# class  CustomerChangeForm(UserChangeForm):
+#     class Meta:
+#         model = User
+#         fields = ('username','avatar','phone_number')
+#         fields = UserChangeForm.Meta.fields
     
     # @transaction.atomic
     # def save(self):
@@ -41,10 +41,10 @@ class  CustomerChangeForm(UserChangeForm):
     #     customer.save()
     #     return user
 
-class EmployeeCreationForm(UserCreationForm):   
-    class Meta(UserCreationForm.Meta):
-        fields = ('username','email','password1','password2') 
-        model = User
+# class EmployeeCreationForm(UserCreationForm):   
+#     class Meta(UserCreationForm.Meta):
+#         fields = ('username','email','password1','password2') 
+#         model = User
     # let op:
     # user.is_employee in forms already (not in view) 
     # @transaction.atomic
@@ -58,11 +58,11 @@ class EmployeeCreationForm(UserCreationForm):
     
 
 
-class  EmployeeChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = ('username','avatar','phone_number')
-        fields = UserChangeForm.Meta.fields
+# class  EmployeeChangeForm(UserChangeForm):
+#     class Meta:
+#         model = User
+#         fields = ('username','avatar','phone_number')
+#         fields = UserChangeForm.Meta.fields
     
     
     # @transaction.atomic

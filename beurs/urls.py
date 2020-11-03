@@ -19,13 +19,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework import  routers
 from api.account.viewsets import UserViewSet
+from django.views.generic import TemplateView
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('signup-customer/',include('users.urls'))
+    path('',TemplateView.as_view(template_name = 'home.html'),name='home'),    
+    # path('signup-customer/',include('users.urls'))
     
 ]
 # (temp) path for browser api view
