@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1>Welcome to Our Club </h1>
+    <div class="row">
+        <div class="col col-md-10">
+            {% if user.is_authenticated %}
+            <h1>{{user}}</h1>
+            {% else %}
+            <h1>Welcome,{{user}}</h1>
+            {% endif %}
+        </div>
+    </div>    
+
+</div>
+<div class="row">
+    <div class="col col-md-6"><button class="btn btn-success"><a href="{% url 'users:customer-signup' %}">Go as a customer</a></button></div>
+    <div class="col col-md-6"><a href="{% url 'users:employee-signup' %}">Go as an employee</a></div>
+</div>
+{% endblock content %}
