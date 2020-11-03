@@ -21,12 +21,15 @@ from rest_framework import  routers
 from api.account.viewsets import UserViewSet
 from django.views.generic import TemplateView
 
+
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',TemplateView.as_view(template_name = 'home.html'),name='home'),    
+    path('',TemplateView.as_view(template_name = 'home.html'),name='home'), 
+    path('users/',include('users.urls'))
+     
     
     
 ]
