@@ -6,17 +6,13 @@ User = get_user_model()
 from django.contrib.auth.forms import UserCreationForm
 from .forms import *
 
-# class CustReg(RedirectView):
-#     pattern_name = 'users:customer-dashboard'
+class CustReg(RedirectView):
+    pattern_name = 'users:customer-dashboard'
     
-#     def get_redirect_url(self):
-#         # some logic here
-#         # user gets is_customer True
-#         return super().get_redirect_url(*args,**kwargs) 
+    def get_redirect_url(self):
+        # some logic here
+        # user gets is_customer True
+        return super().get_redirect_url(*args,**kwargs) 
 
-# class CustReg(CreateView):
-#     model = User
-#     form_class= CustomerCreationForm
-#     template_name = 'users/cust_registration.html'
-#     success_url = '/'
+
    

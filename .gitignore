@@ -8,5 +8,5 @@ creds.txt
 venv
 media
 .vscode
-admin.py
+
 test_api.py
