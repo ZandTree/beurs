@@ -6,73 +6,26 @@ from .models import Customer,Employee
 
 User = get_user_model()
 
-
-# class CustomerCreationForm(UserCreationForm):
-#     class Meta(UserCreationForm):
-#         model = User
-#         fields = ('username','email','password1','password2','is_customer') 
-
-    # let op:
-    # user.is_customer in forms already (not in view) 
-    # @transaction.atomic
-    # def save(self,commit=False):
-    #     user = super().save(commit=False)
-    #     user.is_customer = True
-    #     user.save()
-    #     customer = Customer.objects.create(user=user)
-    #     customer.save()
-    #     return user    
-
-# class  CustomerChangeForm(UserChangeForm):
+# class PersonForm(forms.ModelForm):
 #     class Meta:
-#         model = User
-#         fields = ('username','avatar','phone_number')
-#         fields = UserChangeForm.Meta.fields
-    
-    # @transaction.atomic
-    # def save(self):
-    #     user = super().save(commit=False)
-    #     if self.cleaned_data.get('avatar') is not None:
-    #         user.phone_number=self.cleaned_data.get('avatar') 
-    #     if self.cleaned_data.get('phone_number') is not None:
-    #         user.phone_number=self.cleaned_data.get('phone_number')        
-    #     user.save()
-    #     customer = Customer.objects.create(user=user)
-    #     customer.save()
-    #     return user
+#        fields = ('location','phone_number','add_form_number')  
 
-# class EmployeeCreationForm(UserCreationForm):   
-#     class Meta(UserCreationForm.Meta):
-#         fields = ('username','email','password1','password2') 
-#         model = User
-    # let op:
-    # user.is_employee in forms already (not in view) 
-    # @transaction.atomic
-    # def save(self,commit=False):
-    #     user = super().save(commit=False)
-    #     user.is_employee = True
-    #     user.save()
-    #     employee = Employee.objects.create(user=user)
-    #     employee.save()
-    #     return user 
+# class CustomerForm(PersonForm):
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ('location','phone_number','add_phone_number')  
+        
+
+# class EmployeeForm(PersonForm):
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ('location','phone_number','add_phone_number')  
+          
+
+     
+
+        
     
 
-
-# class  EmployeeChangeForm(UserChangeForm):
-#     class Meta:
-#         model = User
-#         fields = ('username','avatar','phone_number')
-#         fields = UserChangeForm.Meta.fields
-    
-    
-    # @transaction.atomic
-    # def save(self,commit=False):
-    #     user = super().save(commit=False)
-    #     if self.cleaned_data.get('avatar') is not None:
-    #         user.phone_number=self.cleaned_data.get('avatar') 
-    #     if self.cleaned_data.get('phone_number') is not None:
-    #         user.phone_number=self.cleaned_data.get('phone_number')        
-    #     user.save()
-    #     customer = Customer.objects.create(user=user)
-    #     customer.save()
-    #     return user        

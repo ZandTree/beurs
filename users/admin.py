@@ -12,15 +12,15 @@ User = get_user_model()
 
 class UserAdmin(BaseUserAdmin):
     model = User
-    search_fields = ('email','username','is_customer','is_employee','phone_number')
+    search_fields = ('email','username','is_customer','is_employee')
     form = UserChangeForm
     add_form = UserCreationForm 
-    list_display = ( 'username','email','is_customer','is_employee','phone_number','last_login','is_superuser','is_staff','is_active',)
+    list_display = ( 'username','email','is_customer','is_employee','last_login','is_superuser','is_staff','is_active',)
     list_filter = ('is_staff', 'is_active')
     
     #add key 'classes' with value [collapse ] to toggle Important Dates
     fieldsets = (
-        (_('User'), {'fields': ('username','email', 'password','is_customer','is_employee','phone_number')}),
+        (_('User'), {'fields': ('username','email', 'password','is_customer','is_employee')}),
         (_('Permissions'), {'fields': ('is_superuser','is_staff','is_active','groups','user_permissions',)}),       
         (_('Important dates'), {'classes': ['collapse'],'fields': ('last_login','date_joined')}),
         

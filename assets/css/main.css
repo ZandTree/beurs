@@ -1,3 +1,17 @@
 a {
     color: antiquewhite;
 }
+.but-center {
+    display:flex;
+    justify-content: center;
+
+}
+.but-decor{
+    background-color: #f44336;
+    border: 1px solid transparent;
+
+}
+.but-decor:hover{
+    background-color: #77211b;
+    border: 1px solid transparent;
+}

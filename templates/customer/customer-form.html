@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static i18n %} 
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="row">
+        <div class="col col-md-10">
+            <h1 class="text-center">Customer form coming...</h1>
+            <form class="my-form" action="{% url 'users:customer-signup' %}" method="POST" novalidate>
+                {% csrf_token %}
+                {% for field in form.visible_fields %}
+                     <div class="form-group">
+                         {{ field.label_tag }}
+                            {% render_field field class="form-control" %}
+                              {% for error in field.errors %}
+                                <span style="color:red">{{ error }}</span>
+                              {% endfor %}
+                        {% endfor %}
+                        {% if form.errors %}
+                        <ul>
+                        {% for err in form.errors %}
+                        <li>{{err}}</li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %} 
+                        <div class="but-center mt-2">  
+                            <input type="submit" value="Register as customer" class="btn  btn-primary but-decor">
+                        </div>
+                  </div>
+              </form>
+            
+            
+        </div>
+    </div>
+    
+</div>
+
+{% endblock content %}
