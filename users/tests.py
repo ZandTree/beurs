@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from .models import Employee,Customer
 
 User  = get_user_model()
+
 class UsersManagersTests(TestCase):
 
     def test_create_user(self):
@@ -41,53 +42,37 @@ class UsersManagersTests(TestCase):
         self.assertTrue(admin_user.is_staff)       
         self.assertTrue(admin_user.is_superuser)
         with self.assertRaises(ValueError):
-            User.objects.create_superuser(
-                username='bird',email='bird@mail.com', password='foo', is_superuser=False)
-
-    def test_create_user_one_role(self):
-        """ check for unique option by singup via site form: 
-        here: user should be customer but not employee
-        """       
-        user_customer = User.objects.create_user(
-            username = 'bird',
-            email = 'bird@mail.com', 
-            password = '12345abc',
-            is_customer = True,
-            is_employee = False
-            )
-        self.assertEqual(user_customer.username, 'bird')
-        self.assertEqual(user_customer.email, 'bird@mail.com')
-        self.assertFalse(hasattr(user_customer,'employee'))
-        self.assertTrue(hasattr(user_customer,'customer'))
-
-        with self.assertRaises(TypeError):
-            User.objects.create_user(is_customer= False)
-        with self.assertRaises(TypeError):
-            User.objects.create_user(is_employee=True)
-
+            User.objects.create_superuser(username='bird',email='bird@mail.com', password='foo', 
+            is_superuser=False)
+   
 class CustomerTesCase(TestCase):  
+    """ create new customer and change user 'is_customer' True'  """  
     def setUp(self):
         self.user = User.objects.create(
-            username = "monkey", email = "zaza@mail.com", is_customer = True
-            )        
-        self.customer = Customer.objects.last()
-
+            username = "monkey", email = "zaza@mail.com")
+        self.customer = Customer.objects.create(user=self.user)          
+        
     def test_customer_attrs(self):
         self.assertTrue(hasattr(self.user,'customer'))   
         self.assertTrue(hasattr(self.customer,'user')) 
-        self.assertEqual(self.customer.user.username, 'monkey') 
+        self.assertEqual(self.customer.user.username, 'monkey')
+        self.assertTrue(self.user.is_customer,True) 
 
 class EmployeeTesCase(TestCase):  
     def setUp(self):
+        """ create new employee and change user 'is_employee' True 
+        """  
         self.user = User.objects.create(
             username = "giraf", email = "foo@mail.com", is_employee = True
-            )        
-        self.employee = Employee.objects.last()
+            )
+        self.employee = Employee.objects.create(user=self.user)          
+        
 
-    def test_customer_attrs(self):
+    def test_employee_attrs(self):
         self.assertTrue(hasattr(self.user,'employee'))   
         self.assertTrue(hasattr(self.employee,'user')) 
         self.assertEqual(self.employee.user.username, 'giraf') 
+        self.assertTrue(self.user.is_employee,True)
             
        
                
