@@ -12,13 +12,19 @@ User = get_user_model()
 
 # class CustomerForm(PersonForm):
 class CustomerForm(forms.ModelForm):
+    phone_number = forms.CharField(widget = forms.NumberInput)
+    add_phone_number = forms.CharField(widget = forms.NumberInput)
+
     class Meta:
         model = Customer
-        fields = ('location','phone_number','add_phone_number')  
+        fields = ('designation','location','phone_number','add_phone_number')  
         
 
 # class EmployeeForm(PersonForm):
 class EmployeeForm(forms.ModelForm):
+    phone_number = forms.CharField(widget = forms.NumberInput)
+    add_phone_number = forms.CharField(widget = forms.NumberInput)
+
     class Meta:
         model = Employee
         fields = ('location','phone_number','add_phone_number')  

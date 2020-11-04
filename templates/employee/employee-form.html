@@ -10,30 +10,61 @@
             <form class="my-form" action="{% url 'users:employee-signup' %}" method="POST" novalidate>
                 {% csrf_token %}
                 {% for field in form.visible_fields %}
-                     <div class="form-group">
+                <div class="form-group">
                          {{ field.label_tag }}
                             {% render_field field class="form-control" %}
                               {% for error in field.errors %}
                                 <span style="color:red">{{ error }}</span>
                               {% endfor %}
-                        {% endfor %}
-                        {% if form.errors %}
-                        <ul>
-                        {% for err in form.errors %}
-                        <li>{{err}}</li>
-                        {% endfor %}
-                        </ul>
-                        {% endif %} 
-                        <div class="but-center mt-2">  
-                            <input type="submit" value="Register as as employee" class="btn  btn-primary but-decor">
-                        </div>  
-                        
-                  </div>
-              </form>
-            
+                
+                </div>                   
+                 {% endfor %}       
+                <div class="but-center mt-2">  
+                    <input type="submit" value="Register as as employee" class="btn  btn-primary but-decor">
+                </div> 
+            </form>
+            <!-- errors -->
+            <div class="alert-msg-fields">                               
+            </div>
+            <div class="alert-msg-non-fields">
+            </div>
         </div>
     </div>
     
 </div>
 
-{% endblock content %}
+{% endblock content %}                           
+                        
+                  
+            
+{% block js %}
+<script>
+     $("#empl-signup").on('submit',function(e){
+     e.preventDefault();
+     const url = $(this).attr('action'); 
+     const data = $(this).serialize();          
+     $.ajax({
+        url,
+        data:data,
+        method:'POST',
+        success:(response)=>{
+            console.log("registered as anemployee");
+            console.log('resp',response.path);
+            window.location = '/users/employee-dashboard/'
+        },
+        error:(err)=>{
+           console.log("smth went wrong",err);           
+           let msg = $('.alert-msg');
+           let msgNonFields = $('.alert-msg-non-fields')
+           msg.text(err.non_field_errs);
+           msgNonFields.text(err.errors);
+           
+           
+        }
+        
+        
+    });
+})
+
+</script>
+{% endblock %}

@@ -6,8 +6,8 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col col-md-10">
-            <h1 class="text-center">Customer form coming...</h1>
-            <form class="my-form" action="{% url 'users:customer-signup' %}" method="POST" novalidate>
+            <h1 class="text-center">Customer form </h1>
+            <form id="cust-signup" class="my-form" action="{% url 'users:customer-signup' %}" method="POST" novalidate>
                 {% csrf_token %}
                 {% for field in form.visible_fields %}
                      <div class="form-group">
@@ -16,17 +16,20 @@
                               {% for error in field.errors %}
                                 <span style="color:red">{{ error }}</span>
                               {% endfor %}
-                        {% endfor %}
-                        {% if form.errors %}
-                        <ul>
-                        {% for err in form.errors %}
-                        <li>{{err}}</li>
-                        {% endfor %}
-                        </ul>
-                        {% endif %} 
-                        <div class="but-center mt-2">  
-                            <input type="submit" value="Register as customer" class="btn  btn-primary but-decor">
-                        </div>
+                {% endfor %}
+
+                
+                <div class="alert-msg-fields">
+                                 
+                </div>
+                <div class="alert-msg-non-fields">
+                                 
+                </div>
+                
+                
+                <div class="but-center mt-2">  
+                    <input type="submit" value="Register as customer" class="btn  btn-primary but-decor">
+                </div>
                   </div>
               </form>
             
@@ -37,3 +40,33 @@
 </div>
 
 {% endblock content %}
+
+{% block js %}
+<script>    
+    $("#cust-signup").on('submit',function(e){
+     e.preventDefault();
+     const url = $(this).attr('action'); 
+     const data = $(this).serialize();          
+     $.ajax({
+        url,
+        data:data,
+        method:'POST',
+        success:function(response){
+            console.log("registered as a customer");
+            console.log('resp',response);
+            window.location = '/users/customer-dashboard';
+        },
+        error:function(err){
+           console.log("smth went wrong",err);           
+           let msg = $('.alert-msg');
+           let msgNonFields = $('.alert-msg-non-fields')
+           msg.text(err.non_field_errs);
+           msgNonFields.text(err.errors);
+           
+        }
+    });
+})
+    
+</script> 
+{% endblock %}
+

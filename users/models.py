@@ -48,14 +48,11 @@ class Customer(CommonInfo):
     """ extra attr unid to display in public space"""
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     unid = models.UUIDField(max_length=255, default = uuid.uuid4, editable = False)
-    designation = models.CharField(max_length=120, default=True)
-    # designation = models.CharField(help_text = _("Company Name"), max_length=120, default=True)
-    location = models.CharField( max_length=250,default="")
-    phone_number = models.CharField(max_length=20,default="")
-    # phone_number = models.CharField(help_text = _("Your Phone"), max_length=20,default="")
-    add_phone_number = models.CharField(max_length=20, default="")
-    # add_phone_number = models.CharField(help_text = _("Extra Phone"), max_length=20, default="")
-
+    designation = models.CharField(help_text=_("Company Name"), max_length=120, default="")
+    location = models.CharField( help_text=_("Company Name"),max_length=250, default="")
+    phone_number = models.CharField(help_text=_("Your Phone"), max_length=20,default="")
+    add_phone_number = models.CharField(help_text=_("Extra Phone"), max_length=20, default="")
+   
     class Meta(CommonInfo.Meta):
         pass 
     
@@ -67,15 +64,11 @@ class Employee(CommonInfo):
     """ extra attr unid to display in public space"""
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     unid = models.UUIDField(max_length=255, default = uuid.uuid4, editable = False)
-    designation = models.CharField( max_length=120, default=True)
-    # designation = models.CharField(help_text = _("Company Name"), max_length=120, default=True)
-    location = models.CharField(max_length=250,default="") 
-    # location = models.CharField(_(help_text = "Location"), max_length=250,default="") 
-    phone_number = models.CharField(max_length=20,default="")
-    # phone_number = models.CharField(help_text = _("Your Phone"), max_length=20,default="")
-    add_phone_number = models.CharField(max_length=20, default="")
-    # add_phone_number = models.CharField(help_text = _("Extra Phone"), max_length=20, default="")
-
+    designation = models.CharField(help_text= _("Company Name"), max_length=120, default="")
+    location = models.CharField(help_text=_("Location"), max_length=250,default="") 
+    phone_number = models.CharField(help_text = _("Your Phone"), max_length=20,default="")    
+    add_phone_number = models.CharField(help_text = _("Extra Phone"), max_length=20, default="")
+    
     class Meta(CommonInfo.Meta):
         pass
     
