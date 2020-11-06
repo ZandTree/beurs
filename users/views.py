@@ -6,33 +6,31 @@ from .forms import *
 
 User = get_user_model()
 
-
 class CustomerRegister(CreateView):
     form_class = CustomerForm
-    success_url = '/'
+    success_url = 'customer/customer-dashboard.html'
     template_name = 'customer/customer-form.html'
 
-    # def form_valid(self,form):
-    #     print("form",form)
-    #     self.object = form.save(commit=False)
-    #     self.object.user = self.request.user
-    #     self.object.save()
-    #     return super().form_valid(form)
-
-    def post(self,request,*args,**kwargs):
-        form = CustomerForm(request.POST)
-        user = request.user
-        if form.is_valid():
-            obj = form.save(commit=False) 
-            obj.user = user
-            obj.save()
-            user.is_customer = True
-            user.save()
-            return JsonResponse({"ok":True})
+    def form_valid(self,form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        self.request.user.is_customer = True
+        self.request.user.save()        
+        response = super().form_valid(form)
+        if self.request.is_ajax():
+            data = {"msg": "Submission successful"}        
+            return JsonResponse({"data":data})
         else:
-            msg = "wrong"
-            return JsonResponse({"resp":wrong})    
+            return response 
 
+    def form_invalid(self,form): 
+        """ If form is invalid return status 400 array of errors """ 
+        response = super().form_invalid(form)        
+        msg = "something went wrong"        
+        errors = form.errors.as_json() # string
+        return JsonResponse ({"msg":msg,"errors":errors},status = 400)   
+               
 class CustomerDashboard(TemplateView):
     template_name = 'customer/customer-dashboard.html'
 
@@ -41,32 +39,28 @@ class EmployeeRegister(CreateView):
     success_url = 'employee/employee-dashboard.html'
     template_name = 'employee/employee-form.html' 
 
-    def post(self,request,*args,**kwargs):
-        form = EmployeeForm(request.POST)
-        user = request.user
-        if form.is_valid():
-            obj = form.save(commit=False) 
-            obj.user = user
-            obj.save()
-            user.is_employee = True
-            user.save()
-            return JsonResponse({"resp":'ok'})
+    def form_valid(self,form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        self.request.user.is_employee = True
+        self.request.user.save()        
+        response = super().form_valid(form)       
+        if self.request.is_ajax():
+            data = {"msg": "Submission successful"}        
+            return JsonResponse({"data":data})
         else:
-            msg = "he-he wrong"
-            print("errors in form:", form.errors.as_json())
-            errors = form.errors.as_json()
-            if form.non_field_errors:
-                non_field_errs = form.non_field_errors()
-
-            return JsonResponse ({"msg":msg,"errors":errors,"non_field_errs":non_field_errs}) 
-
-# errors
-# ('{"location": [{"message": "This field is required.", "code": "required"}], '
-#  '"phone_number": [{"message": "This field is required.", "code": '
-#  '"required"}], "add_phone_number": [{"message": "This field is required.", '
-#  '"code": "required"}]}')                 
+            return response 
+    def form_invalid(self,form): 
+        """ If form is invalid return status 400 array of errors """ 
+        response = super().form_invalid(form)         
+        msg = "something went wrong"        
+        errors = form.errors.as_json() # string
+        return JsonResponse ({"msg":msg,"errors":errors},status = 400)         
 
     
+
+ 
     
 
 class EmployeeDashboard(TemplateView):
@@ -74,6 +68,8 @@ class EmployeeDashboard(TemplateView):
 
 
      
+
+       
 
     
 

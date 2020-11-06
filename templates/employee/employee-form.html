@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col col-md-10">
             <h1 class="text-center">Employee form coming...</h1>
-            <form class="my-form" action="{% url 'users:employee-signup' %}" method="POST" novalidate>
+            <form class="my-form" id="empl-signup" action="{% url 'users:employee-signup' %}" method="POST" novalidate>
                 {% csrf_token %}
                 {% for field in form.visible_fields %}
                 <div class="form-group">
@@ -22,11 +22,11 @@
                 <div class="but-center mt-2">  
                     <input type="submit" value="Register as as employee" class="btn  btn-primary but-decor">
                 </div> 
-            </form>
+            </form>           
             <!-- errors -->
-            <div class="alert-msg-fields">                               
+            <div class="alert-msg-fields attention">                               
             </div>
-            <div class="alert-msg-non-fields">
+            <div class="alert-msg-non-fields attention">
             </div>
         </div>
     </div>
@@ -42,21 +42,20 @@
      $("#empl-signup").on('submit',function(e){
      e.preventDefault();
      const url = $(this).attr('action'); 
-     const data = $(this).serialize();          
+     const data = $(this).serialize();
+          
      $.ajax({
         url,
         data:data,
         method:'POST',
-        success:(response)=>{
-            console.log("registered as anemployee");
-            console.log('resp',response.path);
-            window.location = '/users/employee-dashboard/'
+        success:function(response){
+            window.location = '/users/employee-dashboard';
         },
-        error:(err)=>{
+        error:function(err){
            console.log("smth went wrong",err);           
            let msg = $('.alert-msg');
-           let msgNonFields = $('.alert-msg-non-fields')
-           msg.text(err.non_field_errs);
+           let msgNonFields = $('.alert-msg-non-fields');
+           msg.html(err.non_field_errs);
            msgNonFields.text(err.errors);
            
            

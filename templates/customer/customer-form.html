@@ -6,67 +6,83 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col col-md-10">
-            <h1 class="text-center">Customer form </h1>
+            <h1 class="text-center">Customer form </h1>            
             <form id="cust-signup" class="my-form" action="{% url 'users:customer-signup' %}" method="POST" novalidate>
                 {% csrf_token %}
-                {% for field in form.visible_fields %}
-                     <div class="form-group">
-                         {{ field.label_tag }}
-                            {% render_field field class="form-control" %}
-                              {% for error in field.errors %}
-                                <span style="color:red">{{ error }}</span>
-                              {% endfor %}
-                {% endfor %}
+                <div class="form-group">
+                    <label for="id_designation">Designation:</label>
+                    <input type="text" name="designation" maxlength="120" class="form-control" required="" id="id_designation"></div>
+                    <p class="attention" id="designation-errors"></p>
 
+                <div class="form-group">
+                    <label for="id_location">Location:</label>
+                    <input type="text" name="location" maxlength="5" class="form-control" required="" id="id_location"></div>   
+                <p class="attention" id="location-errors"></p>                                                
+                <div class="form-group">
+                    <label for="id_phone_number">Phone number:</label>
+                    <input type="number" name="phone_number" class="form-control" required="" id="id_phone_number"></div>
+                    <p class="attention" id="phone-errors"></p>                                              
+                <div class="form-group">
+                    <label for="id_add_phone_number">Add phone number:</label>
+                    <input type="number" name="add_phone_number" class="form-control" required="" id="id_add_phone_number"></div>
+                    <p class="attention" id="add-phone-errors"></p>                                              
+                    <div class="but-center mt-2">  
+                        <input type="submit" value="Register as customer" class="btn  btn-primary but-decor">
+                    </div>
+                      
+                  </form>
+                  <div id="all-errors"></div>                                                
                 
-                <div class="alert-msg-fields">
-                                 
                 </div>
-                <div class="alert-msg-non-fields">
-                                 
-                </div>
-                
-                
-                <div class="but-center mt-2">  
-                    <input type="submit" value="Register as customer" class="btn  btn-primary but-decor">
-                </div>
-                  </div>
-              </form>
-            
-            
+            </div>    
         </div>
-    </div>
-    
-</div>
-
-{% endblock content %}
-
-{% block js %}
-<script>    
-    $("#cust-signup").on('submit',function(e){
-     e.preventDefault();
-     const url = $(this).attr('action'); 
-     const data = $(this).serialize();          
-     $.ajax({
-        url,
-        data:data,
-        method:'POST',
-        success:function(response){
-            console.log("registered as a customer");
-            console.log('resp',response);
-            window.location = '/users/customer-dashboard';
-        },
-        error:function(err){
-           console.log("smth went wrong",err);           
-           let msg = $('.alert-msg');
-           let msgNonFields = $('.alert-msg-non-fields')
-           msg.text(err.non_field_errs);
-           msgNonFields.text(err.errors);
-           
-        }
-    });
-})
-    
-</script> 
+        {% endblock content %}
+        
+        {% block js %}
+        <script>   
+            
+            // const msgNonFields = $('.alert-msg-non-fields'); 
+            $("#cust-signup").on('submit',function(e){
+             e.preventDefault();
+             const url = $(this).attr('action'); 
+             const data = $(this).serialize(); 
+                           
+             $.ajax({
+                url,
+                data:data,
+                method:'POST',
+                success:function(response){            
+                    window.location = '/users/customer-dashboard';
+                },
+                error:function(err){
+                    const generalErr = ("#all-errors")
+                    const design = $("#designation-errors");    
+                    const location = $('#location-errors');
+                    const phone = $("#phone-errors");    
+                    const addPhone = $('#add-phone-errors');
+                        
+                   if(err.status===500){
+                    console.log("error 500",err.status);  
+                    generalErr.html('<p>Something went wrong on the server</p>') 
+                   }else if(err.status ===400){
+                   // from backend str = err
+                   let source = JSON.parse(err.responseJSON.errors);
+                   design.html(source['designation'][0].message);
+                   location.html(source['location'][0].message);
+                   phone.html(source['phone_number'][0].message);
+                   addPhone.html(source['add_phone_number'][0].message)
+                                
+                   
+                   }else{
+                    console.log("smth went wrong; status:",err.status); 
+                   }                   
+                }
+            });
+        })            
+    </script> 
 {% endblock %}
+               
+                
+                
+                      
 

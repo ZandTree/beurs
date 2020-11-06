@@ -1,6 +1,12 @@
 a {
     color: antiquewhite;
 }
+.attention{
+    color:red;
+}
+.ok{
+    color:green;
+}
 .but-center {
     display:flex;
     justify-content: center;
