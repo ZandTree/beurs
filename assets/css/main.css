@@ -21,3 +21,6 @@ a {
     background-color: #77211b;
     border: 1px solid transparent;
 }
+.visible-border{
+border-bottom:solid black 2px;
+}

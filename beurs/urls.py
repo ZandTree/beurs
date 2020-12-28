@@ -15,39 +15,47 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
-from django.urls import path,include
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from rest_framework import  routers
-from api.account.viewsets import UserViewSet
+from rest_framework import routers
+from api.account.viewsets import UserViewSet, CustomerViewSet
 from django.views.generic import TemplateView
-
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'customers',CustomerViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    # social-auth-app-django (github,google,authO)
+    # only for authO =  python-jose no need for urls/settings
+    path('',include('social_django.urls')),
 ]
 urlpatterns += i18n_patterns(
-    path('',TemplateView.as_view(template_name = 'home.html'),name='home'), 
-    path('users/',include('users.urls'))    
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('users/', include('users.urls')),
+    path('posts/',include('posts.urls')),
 )
 # (temp) path for browser api view
-urlpatterns +=[
+urlpatterns += [
     path('api-auth/', include('rest_framework.urls'))
-    ]
+]
 # djoser path
-urlpatterns +=[
+urlpatterns += [
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls')),
+    # jwt auth
+    path('auth/', include('djoser.urls.jwt')),
 ]
-# other api paths
-# urlpatterns +=[
-#     path('api/v1/', include(router.urls)),
-# ]
 
-#djoser urls
+# other api paths
+urlpatterns +=[
+    path('api/v1/', include(router.urls)),
+]
+
+
+# djoser urls
 # ************************************
 # step N 1: register user
 

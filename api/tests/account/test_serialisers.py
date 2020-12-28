@@ -1,6 +1,6 @@
 from django.test import TestCase
-from users.models import Customer, Employee
-from api.account.serializers import CustomerSerializer, EmployeeSerializer
+from job.users.models import Customer, Employee
+from job.api.account.serializers import CustomerSerializer, EmployeeSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import serializers as ser
 from django.urls import reverse

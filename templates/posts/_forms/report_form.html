@@ -1,0 +1,8 @@
+{% if user.is_authenticated %}
+<div>
+    <form action="{% url 'posts:report-post' post.id %}" method ="post">
+        {% csrf_token %}
+     <button class="badge badge-danger" type="submit">Report Post</button>
+    </form>
+</div>
+{% endif %}

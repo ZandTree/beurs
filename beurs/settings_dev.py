@@ -30,13 +30,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3d parties
-    'widget_tweaks',
     'rest_framework',
     'rest_framework.authtoken',
+    # only for authO =  python-jose no need for urls/settings
+    # social-auth-app-django (authO,gitHib,google)
+    'social_django',
     'djoser',
+    'widget_tweaks',
     # custom
     'users.apps.UsersConfig',
-    
+    'posts',
+
 ]
 
 MIDDLEWARE = [
@@ -118,6 +122,23 @@ EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_HOST_USER = '...'
 EMAIL_HOST_PASSWORD = '...'
 EMAIL_PORT = '2525'
+
+
+# auth0 settings: SOCIAL_AUTH_....
+SOCIAL_AUTH_TRAILING_SLASH = False  # avoid conflicts with /
+SOCIAL_AUTH_AUTH0_DOMAIN = "dev-to1..."
+SOCIAL_AUTH_AUTH0_KEY = "..."
+SOCIAL_AUTH_AUTH0_SECRET = "..."
+SOCIAL_AUTH_AUTH0_SCOPE = ['openid', 'profile', 'email']
+# after that|=> auth backend
+AUTHENTICATION_BACKENDS = {
+    'social_core.backends.auth0.Auth0OAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+}
+LOGIN_URL = '/login/auth0'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 
 # drf
 REST_FRAMEWORK = {

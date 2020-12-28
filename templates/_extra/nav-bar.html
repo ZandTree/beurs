@@ -10,7 +10,18 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>      
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'posts:post-form' %}">All Posts</a>
+      </li>
+      {% if perms.posts.view_report %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'posts:report-list' %}">Reports</a>
+      </li>
+      {% endif %}
+      <li class="nav-item active">
+        <a class="nav-link" href="#">{{user}}</span></a>
+      </li>
       {% if user.is_authenticated %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -19,13 +30,17 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">{% translate 'Profile' %}</a>
           <a class="dropdown-item" href="#">{% translate 'Update Profile' %}</a>
+        </div>
         </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#">{% translate 'LogOut' %}</a>
+        <a class="nav-link" href="{% url 'users:logout' %}">{% translate 'LogOut' %}</a>
       </li>
       
       {% else %}
+       <li class="nav-item">
+        <a class="nav-link" href="/login/auth0">{% translate 'Auth0-LogIn' %}</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="#">{% translate 'SignUp' %}</a>
       </li>

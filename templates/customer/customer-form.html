@@ -51,8 +51,11 @@
                 url,
                 data:data,
                 method:'POST',
-                success:function(response){            
-                    window.location = '/users/customer-dashboard';
+                success:function(response){
+                    console.log("resp to redirect",response.redirect_to);
+                    window.location = response.redirect_to;
+                    //window.location = '/users/customer-dashboard';
+
                 },
                 error:function(err){
                     const generalErr = ("#all-errors")

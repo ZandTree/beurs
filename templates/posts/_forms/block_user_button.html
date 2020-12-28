@@ -1,0 +1,6 @@
+<div>
+    <form action="{% url 'posts:ban-user' post.user.id %}" method ="post">
+        {% csrf_token %}
+     <button class="badge badge-danger" type="submit">Ban user</button>
+    </form>
+</div>

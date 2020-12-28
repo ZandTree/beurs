@@ -1,0 +1,6 @@
+<div>
+    <form action="{% url 'posts:post-hide' post.id %}" method ="post">
+        {% csrf_token %}
+     <button class="badge badge-warning" type="submit">Hide Post</button>
+    </form>
+</div>
